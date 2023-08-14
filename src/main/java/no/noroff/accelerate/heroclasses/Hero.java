@@ -1,39 +1,42 @@
 package no.noroff.accelerate.heroclasses;
 
+import no.noroff.accelerate.HeroAttribute;
+import no.noroff.accelerate.items.Item;
+
+import java.util.List;
+
 public abstract class Hero {
     protected String name;
     protected int level;
-    protected int levelAttributes;
+    protected HeroAttribute levelAttributes;
 
-    protected String validWeaponTypes;
-    protected String validArmorTypes;
+    protected List<WeaponType> validWeaponTypes;
+    protected List<ArmorType> validArmorTypes;
+    protected List<Item> equipment;
 
-    public Hero(String name, int level, int levelAttributes, String validWeaponTypes, String validArmorTypes) {
+    public Hero(String name) {
         this.name = name;
-        this.level = level;
-        this.levelAttributes = levelAttributes;
-        this.validWeaponTypes = validWeaponTypes;
-        this.validArmorTypes = validArmorTypes;
+        this.level = 1; //Heroes starts at level 1
     }
 
     public void levelUp() {
 
     }
 
-    public void equipArmor(){
+    public void equipWeapon(Weapon weapon){
 
     }
 
-    public void equipWeapon() {
+    public void equipArmor(Armor armor) {
 
     }
 
-    public void damageDealt() {
-
+    public int calcDamage() {
+        return 0;
     }
 
-    public void totalAttributes() {
-
+    public int totalAttributes() {
+        return 0;
     }
 
     public void displayHero() {
