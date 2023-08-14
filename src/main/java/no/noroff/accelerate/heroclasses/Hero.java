@@ -1,7 +1,12 @@
 package no.noroff.accelerate.heroclasses;
 
 import no.noroff.accelerate.HeroAttribute;
+import no.noroff.accelerate.items.Equipment;
 import no.noroff.accelerate.items.Item;
+import no.noroff.accelerate.items.armor.Armor;
+import no.noroff.accelerate.items.armor.ArmorType;
+import no.noroff.accelerate.items.weapons.Weapon;
+import no.noroff.accelerate.items.weapons.WeaponType;
 
 import java.util.List;
 
@@ -12,11 +17,12 @@ public abstract class Hero {
 
     protected List<WeaponType> validWeaponTypes;
     protected List<ArmorType> validArmorTypes;
-    protected List<Item> equipment;
 
+    protected Equipment equipment;
     public Hero(String name) {
         this.name = name;
         this.level = 1; //Heroes starts at level 1
+        equipment = new Equipment();
     }
 
     public void levelUp() {
