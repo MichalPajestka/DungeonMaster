@@ -1,7 +1,5 @@
 package no.noroff.accelerate.items;
 
-import no.noroff.accelerate.exceptions.InvalidEquipmentException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +13,9 @@ public class Equipment {
         }
     }
 
-    public void equipItem(Item item) throws InvalidEquipmentException {
+    public void equipItem(Item item) {
         Slot slot = item.getSlot();
-        if (equippedItems.containsKey(slot)) {
-            equippedItems.put(slot, item);
-        } else {
-            throw new InvalidEquipmentException("Invalid slot for equipping item");
-        }
+        equippedItems.put(slot, item);
     }
 
     public Map<Slot, Item> getEquippedItems() {

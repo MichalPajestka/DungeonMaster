@@ -1,6 +1,6 @@
 package no.noroff.accelerate.heroclasses;
 
-import no.noroff.accelerate.HeroAttribute;
+import no.noroff.accelerate.items.weapons.Weapon;
 
 public class Barbarian extends Hero {
     public Barbarian(String name) {
@@ -9,7 +9,8 @@ public class Barbarian extends Hero {
     }
 
     @Override
-    public int calcDamage() {
+    public int calcDamage(Weapon weapon) {
+
 
     }
 

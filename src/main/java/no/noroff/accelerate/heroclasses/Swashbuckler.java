@@ -1,7 +1,5 @@
 package no.noroff.accelerate.heroclasses;
 
-import no.noroff.accelerate.HeroAttribute;
-
 public class Swashbuckler extends Hero {
 
     public Swashbuckler(String name) {

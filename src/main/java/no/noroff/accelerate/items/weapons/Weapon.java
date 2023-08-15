@@ -5,7 +5,7 @@ import no.noroff.accelerate.items.Slot;
 
 public class Weapon extends Item {
     private WeaponType weaponType;
-    private int weaponDamage;
+    protected int weaponDamage;
 
 
     public Weapon(String name, int requiredLevel, WeaponType weaponType, int weaponDamage) {

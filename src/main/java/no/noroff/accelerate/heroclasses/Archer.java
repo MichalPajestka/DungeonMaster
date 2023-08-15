@@ -1,7 +1,5 @@
 package no.noroff.accelerate.heroclasses;
 
-import no.noroff.accelerate.HeroAttribute;
-
 public class Archer extends Hero{
     public Archer(String name) {
         super(name);

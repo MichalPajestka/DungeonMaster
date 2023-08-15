@@ -1,4 +1,4 @@
-package no.noroff.accelerate;
+package no.noroff.accelerate.heroclasses;
 
 public class HeroAttribute {
     private int strenght;
@@ -6,13 +6,13 @@ public class HeroAttribute {
     private int intelligence;
 
 
-    public HeroAttribute(int strenght, int dexterity, int intelligence) {
-        this.strenght = strenght;
+    public HeroAttribute(int strength, int dexterity, int intelligence) {
+        this.strenght = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;
     }
 
-    public int getStrenght() {
+    public int getStrength() {
         return strenght;
     }
 

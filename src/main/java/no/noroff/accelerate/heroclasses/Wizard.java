@@ -1,7 +1,5 @@
 package no.noroff.accelerate.heroclasses;
 
-import no.noroff.accelerate.HeroAttribute;
-
 public class Wizard extends Hero{
     public Wizard(String name) {
         super(name);
