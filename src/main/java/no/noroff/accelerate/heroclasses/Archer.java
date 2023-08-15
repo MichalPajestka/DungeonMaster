@@ -1,5 +1,8 @@
 package no.noroff.accelerate.heroclasses;
 
+import no.noroff.accelerate.items.Slot;
+import no.noroff.accelerate.items.weapons.Weapon;
+
 public class Archer extends Hero{
     public Archer(String name) {
         super(name);
@@ -8,11 +11,17 @@ public class Archer extends Hero{
 
     @Override
     public int calcDamage() {
+        int damageAttribute = calcTotalAttributes().getDexterity();
+        Weapon equippedWeapon = getEquippedWeapon();
 
+        int weaponDamage;
+        if (equippedWeapon != null) {
+            weaponDamage = equippedWeapon.getWeaponDamage();
+        } else {
+            weaponDamage = 1;
+        }
+
+        return (weaponDamage * (1 + damageAttribute / 100));
     }
 
-    @Override
-    public int totalAttributes() {
-
-    }
 }

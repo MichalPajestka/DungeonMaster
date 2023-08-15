@@ -1,6 +1,6 @@
 package no.noroff.accelerate.heroclasses;
 
-import no.noroff.accelerate.items.armor.ArmorAttribute;
+
 
 public class HeroAttribute {
     protected int strength;

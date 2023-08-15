@@ -1,5 +1,6 @@
 package no.noroff.accelerate.heroclasses;
 
+import no.noroff.accelerate.items.Slot;
 import no.noroff.accelerate.items.weapons.Weapon;
 
 public class Barbarian extends Hero {
@@ -9,13 +10,18 @@ public class Barbarian extends Hero {
     }
 
     @Override
-    public int calcDamage(Weapon weapon) {
+    public int calcDamage() {
+        int damageAttribute = calcTotalAttributes().getStrength();
+        Weapon equippedWeapon = getEquippedWeapon();
 
+        int weaponDamage;
+        if (equippedWeapon != null) {
+            weaponDamage = equippedWeapon.getWeaponDamage();
+        } else {
+            weaponDamage = 1;
+        }
 
+        return (weaponDamage * (1 + damageAttribute / 100));
     }
 
-    @Override
-    public int totalAttributes() {
-
-    }
 }

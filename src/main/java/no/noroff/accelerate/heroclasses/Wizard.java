@@ -1,5 +1,7 @@
 package no.noroff.accelerate.heroclasses;
 
+import no.noroff.accelerate.items.weapons.Weapon;
+
 public class Wizard extends Hero{
     public Wizard(String name) {
         super(name);
@@ -8,11 +10,18 @@ public class Wizard extends Hero{
 
     @Override
     public int calcDamage() {
+        int damageAttribute = calcTotalAttributes().getIntelligence();
+        Weapon equippedWeapon = getEquippedWeapon();
 
+        int weaponDamage;
+        if (equippedWeapon != null) {
+            weaponDamage = equippedWeapon.getWeaponDamage();
+        } else {
+            weaponDamage = 1;
+        }
+
+        return (weaponDamage * (1 + damageAttribute / 100));
     }
 
-    @Override
-    public int totalAttributes() {
 
-    }
 }

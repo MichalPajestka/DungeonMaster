@@ -4,6 +4,7 @@ import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.InvalidWeaponException;
 import no.noroff.accelerate.items.Equipment;
 import no.noroff.accelerate.items.Item;
+import no.noroff.accelerate.items.Slot;
 import no.noroff.accelerate.items.armor.Armor;
 import no.noroff.accelerate.items.armor.ArmorAttribute;
 import no.noroff.accelerate.items.armor.ArmorType;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public abstract class Hero {
     protected String name;
+
     protected int level;
     protected HeroAttribute levelAttributes;
 
@@ -28,7 +30,7 @@ public abstract class Hero {
     }
 
     public void levelUp() {
-
+        level++;
     }
 
     public void equipWeapon(Weapon weapon) throws InvalidWeaponException {
@@ -37,6 +39,11 @@ public abstract class Hero {
         }
         equipment.equipItem(weapon);
     }
+
+    protected Weapon getEquippedWeapon() {
+        return (Weapon) equipment.getEquippedItems().get(Slot.WEAPON);
+    }
+
 
     public void equipArmor(Armor armor) throws InvalidArmorException {
         if(!validArmorTypes.contains(armor.getArmorType())) {
@@ -66,9 +73,7 @@ public abstract class Hero {
         return totalAttributes;
     }
 
-    public int calcDamage() {
-
-    }
+    public abstract int calcDamage();
 
     public void displayHero() {
 
