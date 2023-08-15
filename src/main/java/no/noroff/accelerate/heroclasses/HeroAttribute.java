@@ -1,19 +1,21 @@
 package no.noroff.accelerate.heroclasses;
 
+import no.noroff.accelerate.items.armor.ArmorAttribute;
+
 public class HeroAttribute {
-    private int strenght;
-    private int dexterity;
-    private int intelligence;
+    protected int strength;
+    protected int dexterity;
+    protected int intelligence;
 
 
     public HeroAttribute(int strength, int dexterity, int intelligence) {
-        this.strenght = strength;
+        this.strength = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;
     }
 
     public int getStrength() {
-        return strenght;
+        return strength;
     }
 
     public int getDexterity() {
@@ -22,5 +24,11 @@ public class HeroAttribute {
 
     public int getIntelligence() {
         return intelligence;
+    }
+
+    public void addAttributes(HeroAttribute other) {
+        this.strength += other.strength;
+        this.dexterity += other.dexterity;
+        this.intelligence += other.intelligence;
     }
 }

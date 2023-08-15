@@ -3,7 +3,9 @@ package no.noroff.accelerate.heroclasses;
 import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.InvalidWeaponException;
 import no.noroff.accelerate.items.Equipment;
+import no.noroff.accelerate.items.Item;
 import no.noroff.accelerate.items.armor.Armor;
+import no.noroff.accelerate.items.armor.ArmorAttribute;
 import no.noroff.accelerate.items.armor.ArmorType;
 import no.noroff.accelerate.items.weapons.Weapon;
 import no.noroff.accelerate.items.weapons.WeaponType;
@@ -17,8 +19,8 @@ public abstract class Hero {
 
     protected List<WeaponType> validWeaponTypes;
     protected List<ArmorType> validArmorTypes;
-
     protected Equipment equipment;
+
     public Hero(String name) {
         this.name = name;
         this.level = 1; //Heroes starts at level 1
@@ -43,12 +45,29 @@ public abstract class Hero {
         equipment.equipItem(armor);
     }
 
-    public int calcDamage() {
-        return 0;
+    public HeroAttribute calcTotalAttributes() {
+        HeroAttribute totalAttributes = new HeroAttribute(
+                levelAttributes.getStrength(),
+                levelAttributes.getDexterity(),
+                levelAttributes.getIntelligence()
+        );
+
+        for (Item item : equipment.getEquippedItems().values()) {
+            if (item instanceof Armor) {
+                ArmorAttribute armorAttribute = ((Armor) item).getArmorAttribute();
+                totalAttributes.addAttributes(new HeroAttribute(
+                        armorAttribute.getStrengthBonus(),
+                        armorAttribute.getDexterityBonus(),
+                        armorAttribute.getIntelligenceBonus()
+                ));
+            }
+        }
+        // Return the HeroAttribute object, not the sum of attributes
+        return totalAttributes;
     }
 
-    public int totalAttributes() {
-        return 0;
+    public int calcDamage() {
+
     }
 
     public void displayHero() {

@@ -5,7 +5,7 @@ import no.noroff.accelerate.items.Slot;
 
 public class Armor extends Item {
     private ArmorType armorType;
-    private ArmorAttribute armorAttribute;
+    protected ArmorAttribute armorAttribute;
 
 
     public Armor(String name, int requiredLevel, ArmorType armorType, ArmorAttribute armorAttribute) {
