@@ -60,6 +60,28 @@ public abstract class Hero {
         if(!validWeaponTypes.contains(weapon.getWeaponType())) {
             throw new InvalidWeaponException("Invalid weapon type for this hero");
         }
+
+        if (level < weapon.getRequiredLevel()) {
+            throw new InvalidWeaponException("Hero level is too low to equip this weapon");
+        }
+
+        if ((this instanceof Archer) && !WeaponType.BOW.equals(weapon.getWeaponType())) {
+            throw new InvalidWeaponException("Archers can only use bows");
+
+        } else if ((this instanceof Barbarian) && !WeaponType.HATCHET.equals(weapon.getWeaponType())
+                || !WeaponType.MACE.equals(weapon.getWeaponType())
+                || !WeaponType.SWORD.equals(weapon.getWeaponType())) {
+            throw new InvalidWeaponException(("Barbarians can only use hatchets, maces or swords"));
+
+        } else if ((this instanceof Swashbuckler) && !WeaponType.SWORD.equals(weapon.getWeaponType())
+                || !WeaponType.DAGGER.equals(weapon.getWeaponType())) {
+            throw new InvalidWeaponException("Swashbucklers can only use swords or daggers");
+
+        } else if ((this instanceof Wizard) && !WeaponType.WAND.equals(weapon.getWeaponType())
+                || !WeaponType.STAFF.equals(weapon.getWeaponType())) {
+            throw new InvalidWeaponException("Wizards can only use wands or staffs");
+        }
+
         equipment.equipItem(weapon);
     }
 
@@ -74,7 +96,7 @@ public abstract class Hero {
         }
 
         if (level < armor.getRequiredLevel()) {
-            throw new InvalidArmorException("Hero level is too low to equip this weapon");
+            throw new InvalidArmorException("Hero level is too low to equip this armor");
         }
 
         if ((this instanceof Archer) && !ArmorType.LEATHER.equals(armor.getArmorType())
