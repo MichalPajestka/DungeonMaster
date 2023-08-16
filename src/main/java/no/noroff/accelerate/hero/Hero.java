@@ -2,6 +2,10 @@ package no.noroff.accelerate.hero;
 
 import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.InvalidWeaponException;
+import no.noroff.accelerate.hero.heroclasses.Archer;
+import no.noroff.accelerate.hero.heroclasses.Barbarian;
+import no.noroff.accelerate.hero.heroclasses.Swashbuckler;
+import no.noroff.accelerate.hero.heroclasses.Wizard;
 import no.noroff.accelerate.items.Equipment;
 import no.noroff.accelerate.items.Item;
 import no.noroff.accelerate.items.Slot;
@@ -68,6 +72,27 @@ public abstract class Hero {
         if(!validArmorTypes.contains(armor.getArmorType())) {
             throw new InvalidArmorException("Invalid armor type for this hero");
         }
+
+        if (level < armor.getRequiredLevel()) {
+            throw new InvalidArmorException("Hero level is too low to equip this weapon");
+        }
+
+        if ((this instanceof Archer) && !ArmorType.LEATHER.equals(armor.getArmorType())
+                || !ArmorType.MAIL.equals(armor.getArmorType())) {
+            throw new InvalidArmorException("Archers can only wear light armor, such as leather or mail");
+
+        } else if ((this instanceof Barbarian) && !ArmorType.MAIL.equals(armor.getArmorType())
+                || !ArmorType.PLATE.equals(armor.getArmorType())) {
+            throw new InvalidArmorException(("Barbarians can only wear mail or plate armor"));
+
+        } else if ((this instanceof Swashbuckler) && !ArmorType.MAIL.equals(armor.getArmorType())
+                || !ArmorType.LEATHER.equals(armor.getArmorType())) {
+            throw new InvalidArmorException("Swashbucklers can only wear light armor, such as leather or mail");
+
+        } else if ((this instanceof Wizard) && !ArmorType.CLOTH.equals(armor.getArmorType())) {
+            throw new InvalidArmorException("Wizards can only wear cloth");
+        }
+
         equipment.equipItem(armor);
     }
 
