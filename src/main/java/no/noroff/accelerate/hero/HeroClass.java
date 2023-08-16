@@ -1,4 +1,4 @@
-package no.noroff.accelerate.heroclasses;
+package no.noroff.accelerate.hero;
 
 public enum HeroClass {
     ARCHER,

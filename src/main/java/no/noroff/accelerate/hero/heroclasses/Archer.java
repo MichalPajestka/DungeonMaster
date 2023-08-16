@@ -1,17 +1,19 @@
-package no.noroff.accelerate.heroclasses;
+package no.noroff.accelerate.hero.heroclasses;
 
+import no.noroff.accelerate.hero.Hero;
+import no.noroff.accelerate.hero.HeroAttribute;
+import no.noroff.accelerate.hero.HeroClass;
 import no.noroff.accelerate.items.weapons.Weapon;
 
-public class Swashbuckler extends Hero {
-
-    public Swashbuckler(String name) {
-        super(name, HeroClass.SWASHBUCKLER);
-        this.levelAttributes = new HeroAttribute(2,6,1);
+public class Archer extends Hero {
+    public Archer(String name) {
+        super(name, HeroClass.ARCHER);
+        this.levelAttributes = new HeroAttribute(1, 7, 1);
     }
 
     @Override
     protected HeroAttribute getAttributeLevelUp() {
-        return new HeroAttribute(2, 6, 1);
+        return new HeroAttribute(1, 7, 1);
     }
 
     @Override

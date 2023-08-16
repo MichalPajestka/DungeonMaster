@@ -1,22 +1,25 @@
-package no.noroff.accelerate.heroclasses;
+package no.noroff.accelerate.hero.heroclasses;
 
-import no.noroff.accelerate.items.Slot;
+import no.noroff.accelerate.hero.Hero;
+import no.noroff.accelerate.hero.HeroAttribute;
+import no.noroff.accelerate.hero.HeroClass;
 import no.noroff.accelerate.items.weapons.Weapon;
 
-public class Barbarian extends Hero {
-    public Barbarian(String name) {
-        super(name, HeroClass.BARBARIAN);
-        this.levelAttributes = new HeroAttribute(5,2,1);
+public class Swashbuckler extends Hero {
+
+    public Swashbuckler(String name) {
+        super(name, HeroClass.SWASHBUCKLER);
+        this.levelAttributes = new HeroAttribute(2,6,1);
     }
 
     @Override
     protected HeroAttribute getAttributeLevelUp() {
-        return new HeroAttribute(3, 2, 1);
+        return new HeroAttribute(2, 6, 1);
     }
 
     @Override
     public int calcDamage() {
-        int damageAttribute = calcTotalAttributes().getStrength();
+        int damageAttribute = calcTotalAttributes().getDexterity();
         Weapon equippedWeapon = getEquippedWeapon();
 
         int weaponDamage;

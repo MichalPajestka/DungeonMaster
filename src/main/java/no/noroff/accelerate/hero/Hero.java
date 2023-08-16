@@ -1,4 +1,4 @@
-package no.noroff.accelerate.heroclasses;
+package no.noroff.accelerate.hero;
 
 import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.InvalidWeaponException;
