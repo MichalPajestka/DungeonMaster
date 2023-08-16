@@ -5,8 +5,13 @@ import no.noroff.accelerate.items.weapons.Weapon;
 
 public class Barbarian extends Hero {
     public Barbarian(String name) {
-        super(name);
+        super(name, HeroClass.BARBARIAN);
         this.levelAttributes = new HeroAttribute(5,2,1);
+    }
+
+    @Override
+    protected HeroAttribute getAttributeLevelUp() {
+        return new HeroAttribute(3, 2, 1);
     }
 
     @Override

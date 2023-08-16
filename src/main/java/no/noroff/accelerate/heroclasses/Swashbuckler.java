@@ -5,8 +5,13 @@ import no.noroff.accelerate.items.weapons.Weapon;
 public class Swashbuckler extends Hero {
 
     public Swashbuckler(String name) {
-        super(name);
+        super(name, HeroClass.SWASHBUCKLER);
         this.levelAttributes = new HeroAttribute(2,6,1);
+    }
+
+    @Override
+    protected HeroAttribute getAttributeLevelUp() {
+        return new HeroAttribute(2, 6, 1);
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class Hero {
     protected String name;
-
+    protected String className;
     protected int level;
     protected HeroAttribute levelAttributes;
 
@@ -23,15 +23,34 @@ public abstract class Hero {
     protected List<ArmorType> validArmorTypes;
     protected Equipment equipment;
 
-    public Hero(String name) {
+    public Hero(String name, HeroClass heroClass) {
         this.name = name;
+        this.className = getClassName(heroClass);
         this.level = 1; //Heroes starts at level 1
         equipment = new Equipment();
     }
 
+    private String getClassName(HeroClass heroClass) {
+        switch (heroClass) {
+            case ARCHER:
+                return "Archer";
+            case SWASHBUCKLER:
+                return "Swashbuckler";
+            case BARBARIAN:
+                return "Barbarian";
+            case WIZARD:
+                return "Wizard";
+        }
+        return "";
+    }
+
     public void levelUp() {
         level++;
+
+        levelAttributes.addAttributes(getAttributeLevelUp());
     }
+
+    protected abstract HeroAttribute getAttributeLevelUp();
 
     public void equipWeapon(Weapon weapon) throws InvalidWeaponException {
         if(!validWeaponTypes.contains(weapon.getWeaponType())) {
@@ -75,7 +94,25 @@ public abstract class Hero {
 
     public abstract int calcDamage();
 
-    public void displayHero() {
+    public String displayHero() {
+        StringBuilder heroDisplay = new StringBuilder();
+
+        heroDisplay.append("Name: ").append(name).append("\n");
+        heroDisplay.append("Class: ").append(className).append("\n");
+        heroDisplay.append("Level: ").append(level).append("\n");
+
+        HeroAttribute totalAttributes = calcTotalAttributes();
+        heroDisplay.append("Attributes: ").append("\n");
+        heroDisplay.append("    Strength: ").append(totalAttributes.getStrength()).append("\n");
+        heroDisplay.append("    Dexterity: ").append(totalAttributes.getDexterity()).append("\n");
+        heroDisplay.append("    Intelligence: ").append(totalAttributes.getIntelligence()).append("\n");
+
+        int heroDamage = calcDamage();
+        heroDisplay.append("Damage: ").append(heroDamage).append("\n");
+
+        return heroDisplay.toString();
+
+
 
     }
 

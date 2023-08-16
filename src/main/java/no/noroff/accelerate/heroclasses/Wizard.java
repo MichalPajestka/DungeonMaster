@@ -4,8 +4,13 @@ import no.noroff.accelerate.items.weapons.Weapon;
 
 public class Wizard extends Hero{
     public Wizard(String name) {
-        super(name);
+        super(name, HeroClass.WIZARD);
         this.levelAttributes = new HeroAttribute(1, 1, 8);
+    }
+
+    @Override
+    protected HeroAttribute getAttributeLevelUp() {
+        return new HeroAttribute(1, 1, 5);
     }
 
     @Override
