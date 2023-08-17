@@ -1,9 +1,12 @@
 package no.noroff.accelerate.hero.heroclasses;
 
+import no.noroff.accelerate.exceptions.weapons.BarbarianInvalidWeaponException;
+import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
 import no.noroff.accelerate.hero.Hero;
 import no.noroff.accelerate.hero.HeroAttribute;
 import no.noroff.accelerate.hero.HeroClass;
 import no.noroff.accelerate.items.weapons.Weapon;
+import no.noroff.accelerate.items.weapons.WeaponType;
 
 public class Barbarian extends Hero {
     public Barbarian(String name) {
@@ -33,6 +36,21 @@ public class Barbarian extends Hero {
         }
 
         return (weaponDamage * (1 + damageAttribute / 100));
+    }
+
+    @Override
+    public void equipWeapon(Weapon weapon) throws InvalidWeaponException {
+        if (level < weapon.getRequiredLevel()) {
+            throw new InvalidWeaponException("Hero level is too low to equip this weapon");
+        }
+
+        if (!WeaponType.HATCHET.equals(weapon.getWeaponType())
+                && !WeaponType.MACE.equals(weapon.getWeaponType())
+                && !WeaponType.SWORD.equals(weapon.getWeaponType())) {
+            throw new BarbarianInvalidWeaponException("Barbarians can only use hatchets, maces or swords");
+        }
+
+        equipment.equipItem(weapon);
     }
 
 }

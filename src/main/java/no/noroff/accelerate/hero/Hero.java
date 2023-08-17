@@ -1,7 +1,7 @@
 package no.noroff.accelerate.hero;
 
 import no.noroff.accelerate.exceptions.InvalidArmorException;
-import no.noroff.accelerate.exceptions.InvalidWeaponException;
+import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
 import no.noroff.accelerate.hero.heroclasses.Archer;
 import no.noroff.accelerate.hero.heroclasses.Barbarian;
 import no.noroff.accelerate.hero.heroclasses.Swashbuckler;
@@ -55,36 +55,9 @@ public abstract class Hero {
 
     protected abstract HeroAttribute getAttributeLevelUp();
 
-    public void equipWeapon(Weapon weapon) throws InvalidWeaponException {
-        if(!validWeaponTypes.contains(weapon.getWeaponType())) {
-            throw new InvalidWeaponException("Invalid weapon type for this hero");
-        }
+    public abstract void equipWeapon(Weapon weapon) throws InvalidWeaponException;
 
-        if (level < weapon.getRequiredLevel()) {
-            throw new InvalidWeaponException("Hero level is too low to equip this weapon");
-        }
-
-        if ((this instanceof Archer) && !WeaponType.BOW.equals(weapon.getWeaponType())) {
-            throw new InvalidWeaponException("Archers can only use bows");
-
-        } else if ((this instanceof Barbarian) && !WeaponType.HATCHET.equals(weapon.getWeaponType())
-                || !WeaponType.MACE.equals(weapon.getWeaponType())
-                || !WeaponType.SWORD.equals(weapon.getWeaponType())) {
-            throw new InvalidWeaponException(("Barbarians can only use hatchets, maces or swords"));
-
-        } else if ((this instanceof Swashbuckler) && !WeaponType.SWORD.equals(weapon.getWeaponType())
-                || !WeaponType.DAGGER.equals(weapon.getWeaponType())) {
-            throw new InvalidWeaponException("Swashbucklers can only use swords or daggers");
-
-        } else if ((this instanceof Wizard) && !WeaponType.WAND.equals(weapon.getWeaponType())
-                || !WeaponType.STAFF.equals(weapon.getWeaponType())) {
-            throw new InvalidWeaponException("Wizards can only use wands or staffs");
-        }
-
-        equipment.equipItem(weapon);
-    }
-
-    protected Weapon getEquippedWeapon() {
+    public Weapon getEquippedWeapon() {
         return (Weapon) equipment.getEquippedItems().get(Slot.WEAPON);
     }
 
