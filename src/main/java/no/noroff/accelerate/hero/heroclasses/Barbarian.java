@@ -12,8 +12,12 @@ public class Barbarian extends Hero {
     }
 
     @Override
-    protected HeroAttribute getAttributeLevelUp() {
+    public HeroAttribute getAttributeLevelUp() {
         return new HeroAttribute(3, 2, 1);
+    }
+
+    protected void levelUpAttributes() {
+        levelAttributes.addAttributes(new HeroAttribute(3, 2, 1));
     }
 
     @Override

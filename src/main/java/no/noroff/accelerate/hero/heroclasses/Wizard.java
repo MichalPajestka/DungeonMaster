@@ -12,8 +12,12 @@ public class Wizard extends Hero {
     }
 
     @Override
-    protected HeroAttribute getAttributeLevelUp() {
+    public HeroAttribute getAttributeLevelUp() {
         return new HeroAttribute(1, 1, 5);
+    }
+
+    protected void levelUpAttributes() {
+        levelAttributes.addAttributes(new HeroAttribute(1, 1, 5));
     }
 
     @Override

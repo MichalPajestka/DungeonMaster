@@ -12,8 +12,13 @@ public class Archer extends Hero {
     }
 
     @Override
-    protected HeroAttribute getAttributeLevelUp() {
-        return new HeroAttribute(1, 7, 1);
+    public HeroAttribute getAttributeLevelUp() {
+        return new HeroAttribute(1, 5, 1);
+    }
+
+    @Override
+    protected void levelUpAttributes() {
+        levelAttributes.addAttributes(new HeroAttribute(1, 5, 1));
     }
 
     @Override

@@ -50,8 +50,7 @@ public abstract class Hero {
 
     public void levelUp() {
         level++;
-
-        levelAttributes.addAttributes(getAttributeLevelUp());
+        levelUpAttributes();
     }
 
     protected abstract HeroAttribute getAttributeLevelUp();
@@ -138,6 +137,8 @@ public abstract class Hero {
         // Return the HeroAttribute object, not the sum of attributes
         return totalAttributes;
     }
+
+    protected abstract void levelUpAttributes();
 
     public abstract int calcDamage();
 

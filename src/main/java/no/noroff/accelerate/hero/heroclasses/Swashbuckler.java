@@ -13,8 +13,12 @@ public class Swashbuckler extends Hero {
     }
 
     @Override
-    protected HeroAttribute getAttributeLevelUp() {
-        return new HeroAttribute(2, 6, 1);
+    public HeroAttribute getAttributeLevelUp() {
+        return new HeroAttribute(1, 4, 1);
+    }
+
+    protected void levelUpAttributes() {
+        levelAttributes.addAttributes(new HeroAttribute(1, 4, 1));
     }
 
     @Override
