@@ -121,9 +121,22 @@ class ArcherTest {
     public void testCalculateArcherDamageWithNoWeaponEquipped() {
         Archer archer = new Archer("Sniperman");
 
-        int calculatedDamage = archer.calcDamage();
+        double calculatedDamage = archer.calcDamage();
 
         assertEquals(1, calculatedDamage);
     }
+
+    @Test
+    public void testCalculateIfArcherDamageIsCalculatedProperlyWhenAWeaponIsEquipped() {
+        Archer archer = new Archer("Sniperman");
+        Weapon weapon = new Weapon("Enchanted bow", 1, WeaponType.BOW, 35);
+
+        archer.equipWeapon(weapon);
+
+        double calculatedDamage = archer.calcDamage();
+
+        assertEquals(37.45, calculatedDamage);
+    }
+
 
 }

@@ -24,18 +24,16 @@ public class Barbarian extends Hero {
     }
 
     @Override
-    public int calcDamage() {
-        int damageAttribute = calcTotalAttributes().getStrength();
+    public double calcDamage() {
         Weapon equippedWeapon = getEquippedWeapon();
 
-        int weaponDamage;
         if (equippedWeapon != null) {
-            weaponDamage = equippedWeapon.getWeaponDamage();
+            int weaponDamage = equippedWeapon.getWeaponDamage();
+            double damageAttribute = calcTotalAttributes().getStrength() / 100.0;
+            return weaponDamage * (1 + damageAttribute);
         } else {
-            weaponDamage = 1;
+            return 1.0;
         }
-
-        return (weaponDamage * (1 + damageAttribute / 100));
     }
 
     @Override

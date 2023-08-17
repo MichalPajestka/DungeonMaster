@@ -113,7 +113,7 @@ public abstract class Hero {
 
     protected abstract void levelUpAttributes();
 
-    public abstract int calcDamage();
+    public abstract double calcDamage();
 
     public String displayHero() {
         StringBuilder heroDisplay = new StringBuilder();
@@ -128,7 +128,7 @@ public abstract class Hero {
         heroDisplay.append("    Dexterity: ").append(totalAttributes.getDexterity()).append("\n");
         heroDisplay.append("    Intelligence: ").append(totalAttributes.getIntelligence()).append("\n");
 
-        int heroDamage = calcDamage();
+        double heroDamage = calcDamage();
         heroDisplay.append("Damage: ").append(heroDamage).append("\n");
 
         return heroDisplay.toString();
