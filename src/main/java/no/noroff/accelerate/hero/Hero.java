@@ -115,6 +115,11 @@ public abstract class Hero {
 
     public abstract double calcDamage();
 
+    //Only for testing purposes
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public String displayHero() {
         StringBuilder heroDisplay = new StringBuilder();
 

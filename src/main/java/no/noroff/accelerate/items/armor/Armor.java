@@ -8,8 +8,8 @@ public class Armor extends Item {
     protected ArmorAttribute armorAttribute;
 
 
-    public Armor(String name, int requiredLevel, ArmorType armorType, ArmorAttribute armorAttribute) {
-        super(name, requiredLevel, getArmorSlot(armorType));
+    public Armor(String name, int requiredLevel, ArmorType armorType, ArmorAttribute armorAttribute, Slot slot) {
+        super(name, requiredLevel, slot);
         this.armorType = armorType;
         this.armorAttribute = armorAttribute;
     }
