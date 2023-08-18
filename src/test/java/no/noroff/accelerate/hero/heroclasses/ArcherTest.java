@@ -2,9 +2,7 @@ package no.noroff.accelerate.hero.heroclasses;
 
 import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
-import no.noroff.accelerate.hero.Hero;
 import no.noroff.accelerate.hero.HeroAttribute;
-import no.noroff.accelerate.hero.HeroClass;
 import no.noroff.accelerate.items.Slot;
 import no.noroff.accelerate.items.armor.Armor;
 import no.noroff.accelerate.items.armor.ArmorAttribute;

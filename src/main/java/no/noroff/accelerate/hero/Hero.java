@@ -1,11 +1,6 @@
 package no.noroff.accelerate.hero;
 
-import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
-import no.noroff.accelerate.hero.heroclasses.Archer;
-import no.noroff.accelerate.hero.heroclasses.Barbarian;
-import no.noroff.accelerate.hero.heroclasses.Swashbuckler;
-import no.noroff.accelerate.hero.heroclasses.Wizard;
 import no.noroff.accelerate.items.Equipment;
 import no.noroff.accelerate.items.Item;
 import no.noroff.accelerate.items.Slot;
