@@ -4,6 +4,7 @@
     import no.noroff.accelerate.hero.Hero;
     import no.noroff.accelerate.hero.HeroAttribute;
     import no.noroff.accelerate.hero.HeroClass;
+    import no.noroff.accelerate.items.armor.ArmorType;
     import no.noroff.accelerate.items.weapons.Weapon;
     import no.noroff.accelerate.items.weapons.WeaponType;
 
@@ -14,6 +15,7 @@
             super(name, HeroClass.ARCHER);
             this.levelAttributes = new HeroAttribute(1, 7, 1);
             this.validWeaponTypes = Arrays.asList(WeaponType.BOW);
+            this.validArmorTypes = Arrays.asList(ArmorType.LEATHER, ArmorType.MAIL);
         }
 
         @Override

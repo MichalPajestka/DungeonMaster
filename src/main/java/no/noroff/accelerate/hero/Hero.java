@@ -57,32 +57,30 @@ public abstract class Hero {
 
     public abstract void equipWeapon(Weapon weapon) throws InvalidWeaponException;
 
+    public Armor getEquippedArmor(Slot slot) {
+        return (Armor) equipment.getEquippedItems().get(slot);
+    }
+
     public Weapon getEquippedWeapon() {
         return (Weapon) equipment.getEquippedItems().get(Slot.WEAPON);
     }
 
 
-    public void equipArmor(Armor armor) throws InvalidArmorException {
-        if(!validArmorTypes.contains(armor.getArmorType())) {
-            throw new InvalidArmorException("Invalid armor type for this hero");
-        }
 
+    public void equipArmor(Armor armor) throws InvalidArmorException {
         if (level < armor.getRequiredLevel()) {
             throw new InvalidArmorException("Hero level is too low to equip this armor");
         }
 
-        if ((this instanceof Archer) && !ArmorType.LEATHER.equals(armor.getArmorType())
-                || !ArmorType.MAIL.equals(armor.getArmorType())) {
-            throw new InvalidArmorException("Archers can only wear light armor, such as leather or mail");
-
-        } else if ((this instanceof Barbarian) && !ArmorType.MAIL.equals(armor.getArmorType())
-                || !ArmorType.PLATE.equals(armor.getArmorType())) {
-            throw new InvalidArmorException(("Barbarians can only wear mail or plate armor"));
-
-        } else if ((this instanceof Swashbuckler) && !ArmorType.MAIL.equals(armor.getArmorType())
-                || !ArmorType.LEATHER.equals(armor.getArmorType())) {
+        if ((this instanceof Archer) && !(ArmorType.LEATHER.equals(armor.getArmorType())
+                || ArmorType.MAIL.equals(armor.getArmorType()))) {
+            throw new InvalidArmorException("Archers can only wear leather or mail armor");
+        } else if ((this instanceof Barbarian) && !(ArmorType.MAIL.equals(armor.getArmorType())
+                || ArmorType.PLATE.equals(armor.getArmorType()))) {
+            throw new InvalidArmorException("Barbarians can only wear mail or plate armor");
+        } else if ((this instanceof Swashbuckler) && !(ArmorType.MAIL.equals(armor.getArmorType())
+                || ArmorType.LEATHER.equals(armor.getArmorType()))) {
             throw new InvalidArmorException("Swashbucklers can only wear light armor, such as leather or mail");
-
         } else if ((this instanceof Wizard) && !ArmorType.CLOTH.equals(armor.getArmorType())) {
             throw new InvalidArmorException("Wizards can only wear cloth");
         }

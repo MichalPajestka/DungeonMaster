@@ -8,96 +8,89 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WeaponTests {
-
-//  WAND
     @Test
-    public void testCreateABowWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot() {
-        //Arrange
-        Weapon bow = new Weapon("Master bow", 20, WeaponType.BOW, 90);
+    public void testIfWeaponIsCreatedWithCorrectName() {
+    // Arrange
+    final String expectedName = "Master bow";
+    final int requiredLevel = 1;
+    final WeaponType weaponType = WeaponType.BOW;
+    final int weaponDamage = 100;
 
-        //Act & assert
-        assertEquals("Master bow", bow.getName());
-        assertEquals(20, bow.getRequiredLevel());
-        assertEquals(WeaponType.BOW, bow.getWeaponType());
-        assertEquals(90, bow.getWeaponDamage());
-        assertEquals(Slot.WEAPON, bow.getSlot());
+    // Act
+    Weapon bow = new Weapon(expectedName, requiredLevel, weaponType, weaponDamage);
+    final String actualName = bow.getName();
+
+    // Assert
+    assertEquals(expectedName, actualName);
+}
+
+
+   @Test
+   public void testIfWeaponIsCreatedWithCorrectRequiredLevel() {
+       //Arrange
+        final String weaponName = "Hidden blade";
+        final int expectedLevel = 2;
+        final WeaponType weaponType = WeaponType.DAGGER;
+        final int weaponDamage = 1000;
+
+        //Act
+       Weapon dagger = new Weapon(weaponName, expectedLevel, weaponType, weaponDamage);
+       final int actualLevel = dagger.getRequiredLevel();
+
+       //Assert
+       assertEquals(expectedLevel, actualLevel);
+   }
+
+    @Test
+    public void testIfWeaponIsCreatedWithCorrectWeaponType() {
+        //Arrange
+        final String weaponName = "Tomahawk";
+        final int requiredLevel = 15;
+        final WeaponType weaponType = WeaponType.HATCHET;
+        final int weaponDamage = 125;
+
+        //Act
+        Weapon hatchet = new Weapon(weaponName, requiredLevel, weaponType, weaponDamage);
+
+        final String expectedType = String.valueOf(WeaponType.HATCHET);
+        final String actualType = String.valueOf(hatchet.getWeaponType());
+
+        //Assert
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testCreateADaggerWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot() {
+    public void testIfWeaponIsCreatedWithCorrectWeaponDamage() {
         //Arrange
-        Weapon weapon = new Weapon("Stealth blade", 10, WeaponType.DAGGER, 65);
+        final String weaponName = "Skull Crusher";
+        final int requiredLevel = 34;
+        final WeaponType weaponType = WeaponType.MACE;
+        final int expectedWeaponDamage = 200;
 
-        //Act & assert
-        assertEquals("Stealth blade", weapon.getName());
-        assertEquals(10, weapon.getRequiredLevel());
-        assertEquals(WeaponType.DAGGER, weapon.getWeaponType());
-        assertEquals(65, weapon.getWeaponDamage());
-        assertEquals(Slot.WEAPON, weapon.getSlot());
+        //Act
+        Weapon hatchet = new Weapon(weaponName, requiredLevel, weaponType, expectedWeaponDamage);
+
+        final int actualWeaponDamage = hatchet.getWeaponDamage();
+
+        //Assert
+        assertEquals(expectedWeaponDamage, actualWeaponDamage);
     }
 
     @Test
-    public void testCreateAHatchetWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot() {
+    public void testIfWeaponIsAutomaticallyAssignedToTheWeaponSlotWhenCreated() {
         //Arrange
-        Weapon weapon = new Weapon("Tomahawk", 13, WeaponType.HATCHET, 45);
+        final String weaponName = "Sword of Eden";
+        final int requiredLevel = 45;
+        final int weaponDamage = 500;
+        final WeaponType weaponType = WeaponType.SWORD;
+        final Slot expectedSlot = Slot.WEAPON;
 
-        //Act & assert
-        assertEquals("Tomahawk", weapon.getName());
-        assertEquals(13, weapon.getRequiredLevel());
-        assertEquals(WeaponType.HATCHET, weapon.getWeaponType());
-        assertEquals(45, weapon.getWeaponDamage());
-        assertEquals(Slot.WEAPON, weapon.getSlot());
-    }
+        //Act
+        Weapon sword = new Weapon(weaponName, requiredLevel, weaponType, weaponDamage);
 
-    @Test
-    public void testCreateAMaceWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot() {
-        //Arrange
-        Weapon weapon = new Weapon("Skull Crusher", 23, WeaponType.MACE, 75);
+        final Slot actualSlot = sword.getSlot();
 
-        //Act & assert
-        assertEquals("Skull Crusher", weapon.getName());
-        assertEquals(23, weapon.getRequiredLevel());
-        assertEquals(WeaponType.MACE, weapon.getWeaponType());
-        assertEquals(75, weapon.getWeaponDamage());
-        assertEquals(Slot.WEAPON, weapon.getSlot());
-    }
-
-    @Test
-    public void testCreateAStaffWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot() {
-        //Arrange
-        Weapon weapon = new Weapon("Staff of Doom", 50, WeaponType.STAFF, 500);
-
-        //Act & assert
-        assertEquals("Staff of Doom", weapon.getName());
-        assertEquals(50, weapon.getRequiredLevel());
-        assertEquals(WeaponType.STAFF, weapon.getWeaponType());
-        assertEquals(500, weapon.getWeaponDamage());
-        assertEquals(Slot.WEAPON, weapon.getSlot());
-    }
-
-    @Test
-    public void testCreateASwordWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot(){
-        //Arrange
-        Weapon weapon = new Weapon("Sword of Eden", 78, WeaponType.SWORD, 230);
-
-        //Act & assert
-        assertEquals("Sword of Eden", weapon.getName());
-        assertEquals(78, weapon.getRequiredLevel());
-        assertEquals(WeaponType.SWORD, weapon.getWeaponType());
-        assertEquals(230, weapon.getWeaponDamage());
-        assertEquals(Slot.WEAPON, weapon.getSlot());
-    }
-
-    @Test
-    public void testCreateAHWandWithCorrectNameCorrectRequiredLevelCorrectWeaponTypeCorrectDamageAndCorrectSlot() {
-        //Arrange
-        Weapon weapon = new Weapon("The Elder Wand", 100, WeaponType.WAND, 1000);
-
-        //Act & assert
-        assertEquals("The Elder Wand", weapon.getName());
-        assertEquals(100, weapon.getRequiredLevel());
-        assertEquals(WeaponType.WAND, weapon.getWeaponType());
-        assertEquals(1000, weapon.getWeaponDamage());
-        assertEquals(Slot.WEAPON, weapon.getSlot());
+        //Assert
+        assertEquals(expectedSlot, actualSlot);
     }
 }
