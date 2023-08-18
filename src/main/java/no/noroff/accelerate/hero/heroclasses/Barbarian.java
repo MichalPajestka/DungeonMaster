@@ -34,6 +34,7 @@ public class Barbarian extends Hero {
 
     @Override
     public double calcDamage() {
+        //Calculate barbarian damage
         Weapon equippedWeapon = getEquippedWeapon();
 
         if (equippedWeapon != null) {
@@ -48,6 +49,7 @@ public class Barbarian extends Hero {
 
     @Override
     public void equipWeapon(Weapon weapon) throws BarbarianInvalidWeaponException {
+        //Check if barbarian equipped weapons are valid
         if (level < weapon.getRequiredLevel()) {
             throw new BarbarianInvalidWeaponException("Hero level is too low to equip this weapon");
         }
@@ -60,6 +62,7 @@ public class Barbarian extends Hero {
     }
 
     public void equipArmor(Armor armor) throws InvalidArmorException {
+        //Check if equipped barbarian armor is valid
         if (level < armor.getRequiredLevel()) {
             throw new InvalidArmorException("Hero level is too low to equip this armor");
         }
@@ -79,10 +82,20 @@ public class Barbarian extends Hero {
     }
 
     public HeroAttribute calcTotalAttributes() {
+        //Calculate barbarians total attributes
         HeroAttribute totalAttributes = new HeroAttribute(levelAttributes.getStrength(), levelAttributes.getDexterity(), levelAttributes.getIntelligence());
         HeroAttribute totalArmorAttributes = equipment.calculateTotalArmorAttributes();
         totalAttributes.addAttributes(totalArmorAttributes);
         return totalAttributes;
+    }
+
+    @Override
+    public String displayHero() {
+        StringBuilder heroDisplay = new StringBuilder(super.displayHero());
+
+        heroDisplay.append("Class: ").append(className).append("\n");
+
+        return heroDisplay.toString();
     }
 
     public String getName() {

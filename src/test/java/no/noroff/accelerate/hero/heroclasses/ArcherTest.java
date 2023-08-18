@@ -419,5 +419,26 @@ class ArcherTest {
     }
 
 
+    @Test
+    public void testDisplayArcherHero() {
+        // Arrange
+        String archerName = "Sniperman";
+        Archer archer = new Archer(archerName);
+
+        String expectedOutput = "Name: Sniperman\n" +
+                "Level: 1\n" +
+                "Attributes: \n" +
+                "    Strength: 1\n" +
+                "    Dexterity: 7\n" +
+                "    Intelligence: 1\n" +
+                "Damage: 1.0\n" +
+                "Class: Archer\n";
+
+        // Act
+        String actualOutput = archer.displayHero();
+
+        // Assert
+        assertEquals(expectedOutput, actualOutput);
+    }
 
 }

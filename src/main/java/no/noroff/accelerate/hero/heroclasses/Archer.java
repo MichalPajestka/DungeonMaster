@@ -33,6 +33,7 @@
         }
 
         @Override
+        //Calculate Archer damage
         public double calcDamage() {
             Weapon equippedWeapon = getEquippedWeapon();
 
@@ -48,6 +49,7 @@
 
         @Override
         public void equipWeapon(Weapon weapon) throws ArcherInvalidWeaponException {
+            //Check if archer equipped weapons are valid
             if (level < weapon.getRequiredLevel()) {
                 throw new ArcherInvalidWeaponException("Hero level is too low to equip this weapon");
             }
@@ -60,6 +62,8 @@
         }
 
         public void equipArmor(Armor armor) throws InvalidArmorException {
+            //Check if equipped archer armor is valid
+
             if (level < armor.getRequiredLevel()) {
                 throw new InvalidArmorException("Hero level is too low to equip this armor");
             }
@@ -80,10 +84,20 @@
 
 
         public HeroAttribute calcTotalAttributes() {
+            //Calculate archers total attributes
             HeroAttribute totalAttributes = new HeroAttribute(levelAttributes.getStrength(), levelAttributes.getDexterity(), levelAttributes.getIntelligence());
             HeroAttribute totalArmorAttributes = equipment.calculateTotalArmorAttributes();
             totalAttributes.addAttributes(totalArmorAttributes);
             return totalAttributes;
+        }
+
+        @Override
+        public String displayHero() {
+            StringBuilder heroDisplay = new StringBuilder(super.displayHero());
+
+            heroDisplay.append("Class: ").append(className).append("\n");
+
+            return heroDisplay.toString();
         }
 
         public String getName() {
@@ -97,5 +111,7 @@
         public HeroAttribute getLevelAttributes() {
             return levelAttributes;
         }
+
+
 
     }

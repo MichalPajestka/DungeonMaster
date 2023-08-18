@@ -34,6 +34,7 @@ public class Swashbuckler extends Hero {
 
     @Override
     public double calcDamage() {
+        //Calculate swashbuckler damage
         Weapon equippedWeapon = getEquippedWeapon();
 
         if (equippedWeapon != null) {
@@ -48,6 +49,7 @@ public class Swashbuckler extends Hero {
 
     @Override
     public void equipWeapon(Weapon weapon) throws SwashbucklerInvalidWeaponException {
+        //Check if swashbuckler equipped weapons are valid
         if (level < weapon.getRequiredLevel()) {
             throw new SwashbucklerInvalidWeaponException("Hero level is too low to equip this weapon");
         }
@@ -61,6 +63,7 @@ public class Swashbuckler extends Hero {
     }
 
     public void equipArmor(Armor armor) throws InvalidArmorException {
+        //Check if equipped swashbuckler armor is valid
         if (level < armor.getRequiredLevel()) {
             throw new InvalidArmorException("Hero level is too low to equip this armor");
         }
@@ -80,10 +83,20 @@ public class Swashbuckler extends Hero {
     }
 
     public HeroAttribute calcTotalAttributes() {
+        //Calculate swashbucklers total attributes
         HeroAttribute totalAttributes = new HeroAttribute(levelAttributes.getStrength(), levelAttributes.getDexterity(), levelAttributes.getIntelligence());
         HeroAttribute totalArmorAttributes = equipment.calculateTotalArmorAttributes();
         totalAttributes.addAttributes(totalArmorAttributes);
         return totalAttributes;
+    }
+
+    @Override
+    public String displayHero() {
+        StringBuilder heroDisplay = new StringBuilder(super.displayHero());
+
+        heroDisplay.append("Class: ").append(className).append("\n");
+
+        return heroDisplay.toString();
     }
 
     public String getName() {

@@ -89,7 +89,6 @@ public abstract class Hero {
         StringBuilder heroDisplay = new StringBuilder();
 
         heroDisplay.append("Name: ").append(name).append("\n");
-        heroDisplay.append("Class: ").append(className).append("\n");
         heroDisplay.append("Level: ").append(level).append("\n");
 
         HeroAttribute totalAttributes = calcTotalAttributes();

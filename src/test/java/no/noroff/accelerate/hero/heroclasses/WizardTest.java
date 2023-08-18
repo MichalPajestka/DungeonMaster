@@ -412,4 +412,26 @@ class WizardTest {
         // Assert
         assertEquals(expectedAttributes, actualAttributes);
     }
+
+    @Test
+    public void testWizardDisplayHero() {
+        // Arrange
+        String wizardName = "Doctor Strange";
+        Wizard wizard = new Wizard(wizardName);
+
+        String expectedOutput = "Name: Doctor Strange\n" +
+                "Level: 1\n" +
+                "Attributes: \n" +
+                "    Strength: 1\n" +
+                "    Dexterity: 1\n" +
+                "    Intelligence: 8\n" +
+                "Damage: 1.0\n" +
+                "Class: Wizard\n";
+
+        // Act
+        String actualOutput = wizard.displayHero();
+
+        // Assert
+        assertEquals(expectedOutput, actualOutput);
+    }
 }

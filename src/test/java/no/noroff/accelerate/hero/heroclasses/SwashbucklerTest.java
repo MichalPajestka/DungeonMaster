@@ -405,4 +405,26 @@ class SwashbucklerTest {
         // Assert
         assertEquals(expectedAttributes, actualAttributes);
     }
+
+    @Test
+    public void testSwashbucklerDisplayHero() {
+        // Arrange
+        String swashbucklerName = "Altair";
+        Swashbuckler swashbuckler = new Swashbuckler(swashbucklerName);
+
+        String expectedOutput = "Name: Altair\n" +
+                "Level: 1\n" +
+                "Attributes: \n" +
+                "    Strength: 2\n" +
+                "    Dexterity: 6\n" +
+                "    Intelligence: 1\n" +
+                "Damage: 1.0\n" +
+                "Class: Swashbuckler\n";
+
+        // Act
+        String actualOutput = swashbuckler.displayHero();
+
+        // Assert
+        assertEquals(expectedOutput, actualOutput);
+    }
 }

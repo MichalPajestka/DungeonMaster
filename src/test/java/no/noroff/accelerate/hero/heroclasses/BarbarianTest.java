@@ -412,4 +412,26 @@ class BarbarianTest {
         // Assert
         assertEquals(expectedAttributes, actualAttributes);
     }
+
+    @Test
+    public void testBarbarianDisplayHero() {
+        // Arrange
+        String barbarianName = "Brutus";
+        Barbarian barbarian = new Barbarian(barbarianName);
+
+        String expectedOutput = "Name: Brutus\n" +
+                "Level: 1\n" +
+                "Attributes: \n" +
+                "    Strength: 5\n" +
+                "    Dexterity: 2\n" +
+                "    Intelligence: 1\n" +
+                "Damage: 1.0\n" +
+                "Class: Barbarian\n";
+
+        // Act
+        String actualOutput = barbarian.displayHero();
+
+        // Assert
+        assertEquals(expectedOutput, actualOutput);
+    }
 }
