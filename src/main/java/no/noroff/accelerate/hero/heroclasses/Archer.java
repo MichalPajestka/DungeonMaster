@@ -1,9 +1,13 @@
     package no.noroff.accelerate.hero.heroclasses;
 
+    import no.noroff.accelerate.exceptions.InvalidArmorException;
+    import no.noroff.accelerate.exceptions.armor.ArcherInvalidArmorException;
     import no.noroff.accelerate.exceptions.weapons.ArcherInvalidWeaponException;
     import no.noroff.accelerate.hero.Hero;
     import no.noroff.accelerate.hero.HeroAttribute;
     import no.noroff.accelerate.hero.HeroClass;
+    import no.noroff.accelerate.items.Slot;
+    import no.noroff.accelerate.items.armor.Armor;
     import no.noroff.accelerate.items.armor.ArmorType;
     import no.noroff.accelerate.items.weapons.Weapon;
     import no.noroff.accelerate.items.weapons.WeaponType;
@@ -53,6 +57,14 @@
             }
 
             equipment.equipItem(weapon);
+        }
+
+        public void equipArmor(Armor armor) throws InvalidArmorException {
+            if (!(ArmorType.LEATHER.equals(armor.getArmorType()) || ArmorType.MAIL.equals(armor.getArmorType())) ||
+                    !(Slot.HEAD.equals(armor.getSlot()))) {
+                throw new ArcherInvalidArmorException("Archers can only wear leather or mail armor on the head slot");
+            }
+            equipment.equipItem(armor);
         }
 
         public String getName() {

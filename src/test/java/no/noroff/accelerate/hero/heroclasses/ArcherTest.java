@@ -2,6 +2,7 @@ package no.noroff.accelerate.hero.heroclasses;
 
 import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
+import no.noroff.accelerate.exceptions.armor.ArcherInvalidArmorException;
 import no.noroff.accelerate.hero.HeroAttribute;
 import no.noroff.accelerate.items.Slot;
 import no.noroff.accelerate.items.armor.Armor;
@@ -16,11 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ArcherTest {
 
-    private void assertHeroAttributesEqual(HeroAttribute expected, HeroAttribute actual) {
-        assertEquals(expected.getStrength(), actual.getStrength());
-        assertEquals(expected.getDexterity(), actual.getDexterity());
-        assertEquals(expected.getIntelligence(), actual.getIntelligence());
-    }
     @Test
     public void testIfArcherIsCreatedWithCorrectName() {
         // Arrange
@@ -65,94 +61,36 @@ class ArcherTest {
     }
 
     @Test
-    public void testIfArchersDefaultStrengthAttributeIsCorrectWhenCreated(){
-        //Arrange
-        final int expectedAttribute = 1;
+    public void testIfArchersDefaultAttributesAreCorrectWhenCreated() {
+        // Arrange
+        final HeroAttribute expectedAttributes = new HeroAttribute(1, 7, 1);
         final String archerName = "Sniperman";
 
-        //Act
+        // Act
         Archer archer = new Archer(archerName);
-        final int actualStrengthAttribute = archer.getLevelAttributes().getStrength();
+        HeroAttribute actualAttributes = archer.getLevelAttributes();
 
-
-        //Assert
-        assertEquals(expectedAttribute, actualStrengthAttribute);
+        // Assert
+        assertEquals(expectedAttributes, actualAttributes);
     }
 
     @Test
-    public void testIfArchersDefaultDexterityAttributeIsCorrectWhenCreated(){
-        //Arrange
-        final int expectedAttribute = 7;
+    public void testCheckIfArcherAttributesIncreasesByTheRightAmountWhenLevellingUp() {
+        // Arrange
+        final HeroAttribute expectedAttributes = new HeroAttribute(2, 12, 2);
         final String archerName = "Sniperman";
 
-        //Act
+        // Act
         Archer archer = new Archer(archerName);
-        final int actualDexterityAttribute = archer.getLevelAttributes().getDexterity();
+        HeroAttribute actualAttributes = archer.getLevelAttributes();
 
-        //Assert
-        assertEquals(expectedAttribute, actualDexterityAttribute);
-    }
-
-    @Test
-    public void testIfArchersDefaultIntelligenceAttributeIsCorrectWhenCreated(){
-        //Arrange
-        final int expectedAttribute = 1;
-        final String archerName = "Sniperman";
-
-        //Act
-        Archer archer = new Archer(archerName);
-        final int actualIntelligenceAttribute = archer.getLevelAttributes().getIntelligence();
-
-        //Assert
-        assertEquals(expectedAttribute, actualIntelligenceAttribute);
-    }
-
-    @Test
-    public void testCheckIfArcherStrengthAttributeIncreasesByTheRightAmountWhenLevellingUp() {
-        //Arrange
-        final int expectedAttribute = 2;
-        final String archerName = "Sniperman";
-        Archer archer = new Archer(archerName);
-
-        //Act
         archer.levelUp();
-        final int actualStrengthOnLvlUp = archer.getLevelAttributes().getStrength();
 
-        //Assert
-        assertEquals(expectedAttribute, actualStrengthOnLvlUp);
+        // Assert
+        assertEquals(expectedAttributes, actualAttributes);
     }
 
-    @Test
-    public void testCheckIfArcherDexterityAttributeIncreasesByTheRightAmountWhenLevellingUp() {
-        //Arrange
-        final int expectedAttribute = 12;
-        final String archerName = "Sniperman";
-        Archer archer = new Archer(archerName);
-
-        //Act
-        archer.levelUp();
-        final int actualDexterityOnLvlUp = archer.getLevelAttributes().getDexterity();
-
-        //Assert
-        assertEquals(expectedAttribute, actualDexterityOnLvlUp);
-    }
-
-    @Test
-    public void testCheckIfArcherIntelligenceAttributeIncreasesByTheRightAmountWhenLevellingUp() {
-        //Arrange
-        final int expectedAttribute = 2;
-        final String archerName = "Sniperman";
-
-        //Act
-        Archer archer = new Archer(archerName);
-        archer.levelUp();
-        final int actualIntelligenceOnLvlUp = archer.getLevelAttributes().getIntelligence();
-
-        //Assert
-        assertEquals(expectedAttribute, actualIntelligenceOnLvlUp);
-    }
-
-    @Test
+    @ Test
     public void testCheckIfArcherCanEquipWeaponWithValidWeaponTypeAndLevel() {
         //Arrange
         final String archerName = "Sniperman";
@@ -369,13 +307,39 @@ class ArcherTest {
         Archer archer = new Archer(archerName);
         HeroAttribute actualAttributes = archer.calcTotalAttributes();
 
-        int expectedStrength = expectedAttributes.getStrength() + archer.getAttributeLevelUp().getStrength();
-        int expectedDexterity = expectedAttributes.getDexterity() + archer.getAttributeLevelUp().getDexterity();
-        int expectedIntelligence = expectedAttributes.getIntelligence() + archer.getAttributeLevelUp().getIntelligence();
-        HeroAttribute expectedTotalAttributes = new HeroAttribute(expectedStrength, expectedDexterity, expectedIntelligence);
-
         // Assert
-        assertEquals(expectedTotalAttributes, actualAttributes);
+        assertEquals(expectedAttributes, actualAttributes);
     }
 
+    @Test
+    public void testCalculateArcherAttributesWhenOnePieceOfArmorIsEquipped() throws InvalidArmorException {
+        // Arrange
+        final String archerName = "Sniperman";
+        final String armorName = "Green Hood";
+        final int requiredLevel = 1;
+        final ArmorType armorType = ArmorType.LEATHER;
+        final ArmorAttribute armorAttributes = new ArmorAttribute(3, 8, 5);
+        final Slot armorSlot = Slot.HEAD;
+
+        // Act
+        Archer archer = new Archer(archerName);
+        Armor helmet = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
+
+        archer.equipArmor(helmet);
+
+        // Calculate the expected attributes after equipping the armor
+        int expectedStrength = archer.getAttributeLevelUp().getStrength() + armorAttributes.getStrengthBonus();
+        int expectedDexterity = archer.getAttributeLevelUp().getDexterity() + armorAttributes.getDexterityBonus();
+        int expectedIntelligence = archer.getAttributeLevelUp().getIntelligence() + armorAttributes.getIntelligenceBonus();
+
+        int[] expectedAttributes = {expectedStrength, expectedDexterity, expectedIntelligence};
+        int[] actualAttributes = {
+                archer.calcTotalAttributes().getStrength(),
+                archer.calcTotalAttributes().getDexterity(),
+                archer.calcTotalAttributes().getIntelligence()
+        };
+
+        // Assert
+        assertArrayEquals(expectedAttributes, actualAttributes);
+    }
 }

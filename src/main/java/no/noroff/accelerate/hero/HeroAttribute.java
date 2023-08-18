@@ -31,4 +31,19 @@ public class HeroAttribute {
         this.dexterity += other.dexterity;
         this.intelligence += other.intelligence;
     }
+
+    //Overide the equals method
+    //Need this to compare attributes in the tests
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        HeroAttribute that = (HeroAttribute) obj;
+        return strength == that.strength && dexterity == that.dexterity && intelligence == that.intelligence;
+    }
+
 }
