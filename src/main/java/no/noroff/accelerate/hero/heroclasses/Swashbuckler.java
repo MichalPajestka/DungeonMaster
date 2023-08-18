@@ -1,18 +1,25 @@
 package no.noroff.accelerate.hero.heroclasses;
 
-import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
+import no.noroff.accelerate.exceptions.InvalidArmorException;
+import no.noroff.accelerate.exceptions.armor.SwashbucklerInvalidArmorException;
 import no.noroff.accelerate.exceptions.weapons.SwashbucklerInvalidWeaponException;
 import no.noroff.accelerate.hero.Hero;
 import no.noroff.accelerate.hero.HeroAttribute;
 import no.noroff.accelerate.hero.HeroClass;
+import no.noroff.accelerate.items.Slot;
+import no.noroff.accelerate.items.armor.Armor;
+import no.noroff.accelerate.items.armor.ArmorType;
 import no.noroff.accelerate.items.weapons.Weapon;
 import no.noroff.accelerate.items.weapons.WeaponType;
 
-public class Swashbuckler extends Hero {
+import java.util.Arrays;
 
+public class Swashbuckler extends Hero {
     public Swashbuckler(String name) {
         super(name, HeroClass.SWASHBUCKLER);
-        this.levelAttributes = new HeroAttribute(2,6,1);
+        this.levelAttributes = new HeroAttribute(2, 6, 1);
+        this.validWeaponTypes = Arrays.asList(WeaponType.DAGGER, WeaponType.SWORD);
+        this.validArmorTypes = Arrays.asList(ArmorType.LEATHER, ArmorType.MAIL);
     }
 
     @Override
@@ -20,6 +27,7 @@ public class Swashbuckler extends Hero {
         return new HeroAttribute(1, 4, 1);
     }
 
+    @Override
     protected void levelUpAttributes() {
         levelAttributes.addAttributes(new HeroAttribute(1, 4, 1));
     }
@@ -31,24 +39,62 @@ public class Swashbuckler extends Hero {
         if (equippedWeapon != null) {
             int weaponDamage = equippedWeapon.getWeaponDamage();
             double damageAttribute = calcTotalAttributes().getDexterity() / 100.0;
-            return weaponDamage * (1 + damageAttribute);
+            double damage = weaponDamage * (1 + damageAttribute);
+            return Math.round(damage * 100.0) / 100.0;
         } else {
             return 1.0;
         }
     }
 
     @Override
-    public void equipWeapon(Weapon weapon) throws InvalidWeaponException {
+    public void equipWeapon(Weapon weapon) throws SwashbucklerInvalidWeaponException {
         if (level < weapon.getRequiredLevel()) {
-            throw new InvalidWeaponException("Hero level is too low to equip this weapon");
+            throw new SwashbucklerInvalidWeaponException("Hero level is too low to equip this weapon");
         }
 
-        if (!WeaponType.SWORD.equals(weapon.getWeaponType())
-                && !WeaponType.DAGGER.equals(weapon.getWeaponType())) {
-            throw new SwashbucklerInvalidWeaponException("Swashbucklers can only use swords or daggers");
+        WeaponType weaponType = weapon.getWeaponType();
+        if (!(WeaponType.DAGGER.equals(weaponType) || WeaponType.SWORD.equals(weaponType))) {
+            throw new SwashbucklerInvalidWeaponException("Swashbucklers can only use daggers or swords");
         }
 
         equipment.equipItem(weapon);
     }
 
+    public void equipArmor(Armor armor) throws InvalidArmorException {
+        if (level < armor.getRequiredLevel()) {
+            throw new InvalidArmorException("Hero level is too low to equip this armor");
+        }
+
+        ArmorType armorType = armor.getArmorType();
+        Slot armorSlot = armor.getSlot();
+
+        if (!(ArmorType.LEATHER.equals(armorType) || ArmorType.MAIL.equals(armorType))) {
+            throw new SwashbucklerInvalidArmorException("Swashbucklers can only wear leather or mail armor");
+        }
+
+        if (Slot.HEAD.equals(armorSlot) || Slot.BODY.equals(armorSlot) || Slot.LEGS.equals(armorSlot)) {
+            equipment.equipItem(armor);
+        } else {
+            throw new SwashbucklerInvalidArmorException("Swashbucklers can only wear armor on the head, body, or leg slots");
+        }
+    }
+
+    public HeroAttribute calcTotalAttributes() {
+        HeroAttribute totalAttributes = new HeroAttribute(levelAttributes.getStrength(), levelAttributes.getDexterity(), levelAttributes.getIntelligence());
+        HeroAttribute totalArmorAttributes = equipment.calculateTotalArmorAttributes();
+        totalAttributes.addAttributes(totalArmorAttributes);
+        return totalAttributes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public HeroAttribute getLevelAttributes() {
+        return levelAttributes;
+    }
 }

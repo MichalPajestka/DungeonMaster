@@ -2,8 +2,9 @@ package no.noroff.accelerate.hero.heroclasses;
 
 import no.noroff.accelerate.exceptions.InvalidArmorException;
 import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
-import no.noroff.accelerate.exceptions.armor.ArcherInvalidArmorException;
+import no.noroff.accelerate.hero.Hero;
 import no.noroff.accelerate.hero.HeroAttribute;
+import no.noroff.accelerate.hero.HeroClass;
 import no.noroff.accelerate.items.Slot;
 import no.noroff.accelerate.items.armor.Armor;
 import no.noroff.accelerate.items.armor.ArmorAttribute;
@@ -129,9 +130,7 @@ class ArcherTest {
         Weapon weapon = new Weapon(weaponName, requiredLevel, weaponType, weaponDamage);
 
         InvalidWeaponException expectedException = new InvalidWeaponException("Hero level is too low to equip this weapon");
-        InvalidWeaponException actualException = assertThrows(InvalidWeaponException.class, () -> {
-            archer.equipWeapon(weapon);
-        });
+        InvalidWeaponException actualException = assertThrows(InvalidWeaponException.class, () -> archer.equipWeapon(weapon));
 
         ////Assert
         assertEquals(expectedException.getMessage(), actualException.getMessage());
@@ -152,9 +151,7 @@ class ArcherTest {
         Weapon weapon = new Weapon(weaponName, requiredLevel, weaponType, weaponDamage);
 
         InvalidWeaponException expectedException = new InvalidWeaponException("Archers can only use bows");
-        InvalidWeaponException actualException = assertThrows(InvalidWeaponException.class, () -> {
-            archer.equipWeapon(weapon);
-        });
+        InvalidWeaponException actualException = assertThrows(InvalidWeaponException.class, () -> archer.equipWeapon(weapon));
 
         //Assert
         assertEquals(expectedException.getMessage(), actualException.getMessage());
@@ -222,8 +219,42 @@ class ArcherTest {
 
         //TODO
         //Fix this
-        assertEquals(expectedDamage, calculatedDamage);
+        assertEquals(expectedDamage, calculatedDamage, 0.01);
     }
+
+    @Test
+    public void testCalculateIfArcherDamageIsCalculatedProperlyWhenAWeaponAndArmorIsEquipped() throws InvalidArmorException {
+        // Arrange
+        final String archerName = "Sniperman";
+        final String weaponName = "Enchanted bow";
+        final int requiredLevel = 1;
+        final WeaponType weaponType = WeaponType.BOW;
+        final int weaponDamage = 35;
+
+        final String armorName = "Master hood";
+        final ArmorType armorType = ArmorType.LEATHER;
+        final ArmorAttribute armorAttributes = new ArmorAttribute(20, 54, 25);
+        final Slot armorSlot = Slot.HEAD;
+
+        // Act
+        Archer archer = new Archer(archerName);
+        Weapon weapon = new Weapon(weaponName, requiredLevel, weaponType, weaponDamage);
+        Armor helmet = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
+
+        archer.equipWeapon(weapon);
+        archer.equipArmor(helmet);
+
+        // Calculate total attributes after equipping armor
+        HeroAttribute totalAttributes = archer.calcTotalAttributes();
+
+        // Calculate expected damage using totalAttributes and weaponDamage
+        final double calculatedDamage = archer.calcDamage();
+        final double expectedDamage = weaponDamage * (1 + (double) totalAttributes.getDexterity() / 100);
+
+        // Assert
+        assertEquals(expectedDamage, calculatedDamage, 0.01);
+    }
+
 
     @Test
     public void testCheckIfArcherCanEquipArmorWithValidArmorTypeAndLevel() {
@@ -266,9 +297,7 @@ class ArcherTest {
         Armor armor = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
 
         InvalidArmorException expectedException = new InvalidArmorException("Hero level is too low to equip this armor");
-        InvalidArmorException actualException = assertThrows(InvalidArmorException.class, () -> {
-            archer.equipArmor(armor);
-        });
+        InvalidArmorException actualException = assertThrows(InvalidArmorException.class, () -> archer.equipArmor(armor));
 
         ////Assert
         assertEquals(expectedException.getMessage(), actualException.getMessage());
@@ -289,9 +318,7 @@ class ArcherTest {
         Armor armor = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
 
         InvalidArmorException expectedException = new InvalidArmorException("Archers can only wear leather or mail armor");
-        InvalidArmorException actualException = assertThrows(InvalidArmorException.class, () -> {
-            archer.equipArmor(armor);
-        });
+        InvalidArmorException actualException = assertThrows(InvalidArmorException.class, () -> archer.equipArmor(armor));
 
         ////Assert
         assertEquals(expectedException.getMessage(), actualException.getMessage());
@@ -315,7 +342,7 @@ class ArcherTest {
     public void testCalculateArcherAttributesWhenOnePieceOfArmorIsEquipped() throws InvalidArmorException {
         // Arrange
         final String archerName = "Sniperman";
-        final String armorName = "Green Hood";
+        final String armorName = "Leather Hood";
         final int requiredLevel = 1;
         final ArmorType armorType = ArmorType.LEATHER;
         final ArmorAttribute armorAttributes = new ArmorAttribute(3, 8, 5);
@@ -323,23 +350,76 @@ class ArcherTest {
 
         // Act
         Archer archer = new Archer(archerName);
+
+        final HeroAttribute expectedAttributes = new HeroAttribute(4, 15, 6);
         Armor helmet = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
 
         archer.equipArmor(helmet);
-
-        // Calculate the expected attributes after equipping the armor
-        int expectedStrength = archer.getAttributeLevelUp().getStrength() + armorAttributes.getStrengthBonus();
-        int expectedDexterity = archer.getAttributeLevelUp().getDexterity() + armorAttributes.getDexterityBonus();
-        int expectedIntelligence = archer.getAttributeLevelUp().getIntelligence() + armorAttributes.getIntelligenceBonus();
-
-        int[] expectedAttributes = {expectedStrength, expectedDexterity, expectedIntelligence};
-        int[] actualAttributes = {
-                archer.calcTotalAttributes().getStrength(),
-                archer.calcTotalAttributes().getDexterity(),
-                archer.calcTotalAttributes().getIntelligence()
-        };
+        HeroAttribute actualAttributes = archer.calcTotalAttributes();
 
         // Assert
-        assertArrayEquals(expectedAttributes, actualAttributes);
+        assertEquals(expectedAttributes, actualAttributes);
     }
+
+    @Test
+    public void testCalculateArcherAttributesWhenTwoPiecesOfArmorIsEquipped() throws InvalidArmorException {
+        // Arrange
+        final String archerName = "Sniperman";
+        final String armorName = "Leather Hood";
+        final String armor2Name = "Chain-mail chestplate";
+        final int requiredLevel = 1;
+        final ArmorType armorType = ArmorType.LEATHER;
+        final ArmorType armorType2 = ArmorType.MAIL;
+        final ArmorAttribute armorAttributes = new ArmorAttribute(3, 8, 5);
+        final ArmorAttribute armor2Attributes = new ArmorAttribute(6, 1, 3);
+        final Slot armorSlot = Slot.HEAD;
+        final Slot armor2Slot = Slot.BODY;
+
+        // Act
+        Archer archer = new Archer(archerName);
+
+        final HeroAttribute expectedAttributes = new HeroAttribute(10, 16, 9);
+        Armor helmet = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
+        Armor chestplate = new Armor(armor2Name, requiredLevel, armorType2, armor2Attributes, armor2Slot);
+
+        archer.equipArmor(helmet);
+        archer.equipArmor(chestplate);
+        HeroAttribute actualAttributes = archer.calcTotalAttributes();
+
+        // Assert
+        assertEquals(expectedAttributes, actualAttributes);
+    }
+
+    @Test
+    public void testCalculateArcherAttributesWhenAPieceOfArmorIsEquippedAndThenANewOnIsEquipped() throws InvalidArmorException {
+        // Arrange
+        final String archerName = "Sniperman";
+        final String armorName = "Leather Hood";
+        final String armor2Name = "EPIC LEATHER HOOD ";
+        final int requiredLevel = 1;
+        final ArmorType armorType = ArmorType.LEATHER;
+        final ArmorType armorType2 = ArmorType.LEATHER;
+        final ArmorAttribute armorAttributes = new ArmorAttribute(3, 8, 5);
+        final ArmorAttribute armor2Attributes = new ArmorAttribute(12, 25, 8);
+        final Slot armorSlot = Slot.HEAD;
+        final Slot armor2Slot = Slot.HEAD;
+
+        // Act
+        Archer archer = new Archer(archerName);
+
+        final HeroAttribute expectedAttributes = new HeroAttribute(13, 32, 9);
+        Armor helmet = new Armor(armorName, requiredLevel, armorType, armorAttributes, armorSlot);
+        Armor helmet2 = new Armor(armor2Name, requiredLevel, armorType2, armor2Attributes, armor2Slot);
+
+        archer.equipArmor(helmet);
+
+        archer.equipArmor(helmet2);
+        HeroAttribute actualAttributes = archer.calcTotalAttributes();
+
+        // Assert
+        assertEquals(expectedAttributes, actualAttributes);
+    }
+
+
+
 }

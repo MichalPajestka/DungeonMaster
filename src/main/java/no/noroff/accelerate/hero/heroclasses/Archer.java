@@ -40,9 +40,9 @@
                 int weaponDamage = equippedWeapon.getWeaponDamage();
                 double damageAttribute = calcTotalAttributes().getDexterity() / 100.0;
                 double damage = weaponDamage * (1 + damageAttribute);
-                return (double) Math.round(damage * 100.0) / 100;
+                return Math.round(damage * 100.0) / 100.0;
             } else {
-                return 1;
+                return 1.0;
             }
         }
 
@@ -60,11 +60,30 @@
         }
 
         public void equipArmor(Armor armor) throws InvalidArmorException {
-            if (!(ArmorType.LEATHER.equals(armor.getArmorType()) || ArmorType.MAIL.equals(armor.getArmorType())) ||
-                    !(Slot.HEAD.equals(armor.getSlot()))) {
-                throw new ArcherInvalidArmorException("Archers can only wear leather or mail armor on the head slot");
+            if (level < armor.getRequiredLevel()) {
+                throw new InvalidArmorException("Hero level is too low to equip this armor");
             }
-            equipment.equipItem(armor);
+
+            ArmorType armorType = armor.getArmorType();
+            Slot armorSlot = armor.getSlot();
+
+            if (!(ArmorType.LEATHER.equals(armorType) || ArmorType.MAIL.equals(armorType))) {
+                throw new ArcherInvalidArmorException("Archers can only wear leather or mail armor");
+            }
+
+            if (Slot.HEAD.equals(armorSlot) || Slot.BODY.equals(armorSlot) || Slot.LEGS.equals(armorSlot)) {
+                equipment.equipItem(armor);
+            } else {
+                throw new ArcherInvalidArmorException("Archers can only wear armor on the head, body, or leg slots");
+            }
+        }
+
+
+        public HeroAttribute calcTotalAttributes() {
+            HeroAttribute totalAttributes = new HeroAttribute(levelAttributes.getStrength(), levelAttributes.getDexterity(), levelAttributes.getIntelligence());
+            HeroAttribute totalArmorAttributes = equipment.calculateTotalArmorAttributes();
+            totalAttributes.addAttributes(totalArmorAttributes);
+            return totalAttributes;
         }
 
         public String getName() {

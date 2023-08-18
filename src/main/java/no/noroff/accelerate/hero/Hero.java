@@ -65,29 +65,6 @@ public abstract class Hero {
         return (Weapon) equipment.getEquippedItems().get(Slot.WEAPON);
     }
 
-
-
-    public void equipArmor(Armor armor) throws InvalidArmorException {
-        if (level < armor.getRequiredLevel()) {
-            throw new InvalidArmorException("Hero level is too low to equip this armor");
-        }
-
-        if ((this instanceof Archer) && !(ArmorType.LEATHER.equals(armor.getArmorType())
-                || ArmorType.MAIL.equals(armor.getArmorType()))) {
-            throw new InvalidArmorException("Archers can only wear leather or mail armor");
-        } else if ((this instanceof Barbarian) && !(ArmorType.MAIL.equals(armor.getArmorType())
-                || ArmorType.PLATE.equals(armor.getArmorType()))) {
-            throw new InvalidArmorException("Barbarians can only wear mail or plate armor");
-        } else if ((this instanceof Swashbuckler) && !(ArmorType.MAIL.equals(armor.getArmorType())
-                || ArmorType.LEATHER.equals(armor.getArmorType()))) {
-            throw new InvalidArmorException("Swashbucklers can only wear light armor, such as leather or mail");
-        } else if ((this instanceof Wizard) && !ArmorType.CLOTH.equals(armor.getArmorType())) {
-            throw new InvalidArmorException("Wizards can only wear cloth");
-        }
-
-        equipment.equipItem(armor);
-    }
-
     public HeroAttribute calcTotalAttributes() {
         HeroAttribute totalAttributes = new HeroAttribute(
                 levelAttributes.getStrength(),
@@ -113,11 +90,6 @@ public abstract class Hero {
 
     public abstract double calcDamage();
 
-    //Only for testing purposes
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public String displayHero() {
         StringBuilder heroDisplay = new StringBuilder();
 
@@ -135,9 +107,6 @@ public abstract class Hero {
         heroDisplay.append("Damage: ").append(heroDamage).append("\n");
 
         return heroDisplay.toString();
-
-
-
     }
 
 }

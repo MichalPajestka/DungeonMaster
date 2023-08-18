@@ -1,24 +1,33 @@
 package no.noroff.accelerate.hero.heroclasses;
 
-import no.noroff.accelerate.exceptions.weapons.InvalidWeaponException;
+import no.noroff.accelerate.exceptions.InvalidArmorException;
+import no.noroff.accelerate.exceptions.armor.WizardInvalidArmorException;
 import no.noroff.accelerate.exceptions.weapons.WizardInvalidWeaponException;
 import no.noroff.accelerate.hero.Hero;
 import no.noroff.accelerate.hero.HeroAttribute;
 import no.noroff.accelerate.hero.HeroClass;
+import no.noroff.accelerate.items.Slot;
+import no.noroff.accelerate.items.armor.Armor;
+import no.noroff.accelerate.items.armor.ArmorType;
 import no.noroff.accelerate.items.weapons.Weapon;
 import no.noroff.accelerate.items.weapons.WeaponType;
+
+import java.util.Arrays;
 
 public class Wizard extends Hero {
     public Wizard(String name) {
         super(name, HeroClass.WIZARD);
         this.levelAttributes = new HeroAttribute(1, 1, 8);
+        this.validWeaponTypes = Arrays.asList(WeaponType.STAFF, WeaponType.WAND);
+        this.validArmorTypes = Arrays.asList(ArmorType.CLOTH);
     }
 
     @Override
     public HeroAttribute getAttributeLevelUp() {
-        return new HeroAttribute(1, 1, 5);
+        return new HeroAttribute(1, 5, 0);
     }
 
+    @Override
     protected void levelUpAttributes() {
         levelAttributes.addAttributes(new HeroAttribute(1, 1, 5));
     }
@@ -30,25 +39,61 @@ public class Wizard extends Hero {
         if (equippedWeapon != null) {
             int weaponDamage = equippedWeapon.getWeaponDamage();
             double damageAttribute = calcTotalAttributes().getIntelligence() / 100.0;
-            return weaponDamage * (1 + damageAttribute);
+            double damage = weaponDamage * (1 + damageAttribute);
+            return Math.round(damage * 100.0) / 100.0;
         } else {
             return 1.0;
         }
     }
 
     @Override
-    public void equipWeapon(Weapon weapon) throws InvalidWeaponException {
+    public void equipWeapon(Weapon weapon) throws WizardInvalidWeaponException {
         if (level < weapon.getRequiredLevel()) {
-            throw new InvalidWeaponException("Hero level is too low to equip this weapon");
+            throw new WizardInvalidWeaponException("Hero level is too low to equip this weapon");
         }
 
-        if (!WeaponType.WAND.equals(weapon.getWeaponType())
-                && !WeaponType.STAFF.equals(weapon.getWeaponType())) {
-            throw new WizardInvalidWeaponException("Wizards can only use wands or staffs");
+        if (!validWeaponTypes.contains(weapon.getWeaponType())) {
+            throw new WizardInvalidWeaponException("Wizards can only use staves or wands");
         }
 
         equipment.equipItem(weapon);
     }
 
+    public void equipArmor(Armor armor) throws InvalidArmorException {
+        if (level < armor.getRequiredLevel()) {
+            throw new InvalidArmorException("Hero level is too low to equip this armor");
+        }
 
+        ArmorType armorType = armor.getArmorType();
+        Slot armorSlot = armor.getSlot();
+
+        if (!ArmorType.CLOTH.equals(armorType)) {
+            throw new WizardInvalidArmorException("Wizards can only wear cloth armor");
+        }
+
+        if (Slot.HEAD.equals(armorSlot) || Slot.BODY.equals(armorSlot) || Slot.LEGS.equals(armorSlot)) {
+            equipment.equipItem(armor);
+        } else {
+            throw new WizardInvalidArmorException("Wizards can only wear armor on the head, body, or leg slots");
+        }
+    }
+
+    public HeroAttribute calcTotalAttributes() {
+        HeroAttribute totalAttributes = new HeroAttribute(levelAttributes.getStrength(), levelAttributes.getDexterity(), levelAttributes.getIntelligence());
+        HeroAttribute totalArmorAttributes = equipment.calculateTotalArmorAttributes();
+        totalAttributes.addAttributes(totalArmorAttributes);
+        return totalAttributes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public HeroAttribute getLevelAttributes() {
+        return levelAttributes;
+    }
 }
