@@ -23,11 +23,8 @@ To install and use this project, follow these steps:
 
 2. **Navigate to the project directory:** Change your working directory to the project's folder.
 
-3. **Install dependencies:** Use a package manager to install the project's dependencies.
-4. **Configure the project:** If necessary, update any configuration files or settings according to your needs.
-
-5. **Build the project:** If applicable, build the project
-6. **Run the project:** Start the project by running the test classes.
+3. **Build the project:** If applicable, build the project
+4. **Run the project:** Start the project by running the test classes.
 
 ## Usage
 To provide a clearer understanding, here's an example of how to use the project:
